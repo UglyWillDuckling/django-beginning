@@ -1,15 +1,8 @@
-from django.http import HttpResponse
+from .models import Board
 
-from myproject.boards.models import Board
+from django.shortcuts import render
 
 
 def home(request):
     boards = Board.objects.all()
-    boards_names = []
-
-    for board in boards:
-        boards_names.append(board.name)
-
-    html = "<br>".join(boards_names)
-
-    return HttpResponse(html)
+    return render(request, "home.html", {"boards": boards})
