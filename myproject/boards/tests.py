@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.urls import reverse
 from django.urls import resolve
 
+from .forms import NewTopicForm
+
 from .views import home, board_topics, new_topic
 
 from .models import Board, Post, Topic
@@ -106,3 +108,18 @@ class NewTopicTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(Topic.objects.exists())
         self.assertFalse(Post.objects.exists())
+
+    def test_contains_form(self):
+        response = self.client.get(self.url)
+        form = response.get("form")
+        self.assertIsInstance(form, NewTopicForm)
+
+    def test_invalid_post_data(self):
+        """
+        Invalid post data should redirect.
+        The expected behavior is to show the form again with errors
+        """
+        response = self.client.post(self.url, {})
+        form = response.context.get("form")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(form.errors)
