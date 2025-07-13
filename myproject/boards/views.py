@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, render
 
-from myproject.boards.forms import NewTopicForm
+from .forms import NewTopicForm
 
-from .models import Board, Post, Topic
+from .models import Board, Post
 
 
 def home(request):
@@ -31,10 +31,10 @@ def new_topic(request, pk):
             topic.board = board
             topic.starter = user
             topic.save()
-            post = Post.objects.create(
+            Post.objects.create(
                 message=form.cleaned_data.get("message"), topic=topic, created_by=user
             )
     else:
         form = NewTopicForm()
 
-    return render(request, "new_topic.html", {"board": board})
+    return render(request, "new_topic.html", {"board": board, "form": form})
