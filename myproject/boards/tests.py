@@ -110,8 +110,8 @@ class NewTopicTests(TestCase):
         self.assertFalse(Post.objects.exists())
 
     def test_contains_form(self):
-        response = self.client.get(reverse("new_topic"))
-        form = response.get("form")
+        response = self.client.get(self.url)
+        form = response.context.get("form")
         self.assertIsInstance(form, NewTopicForm)
 
     def test_invalid_post_data(self):
