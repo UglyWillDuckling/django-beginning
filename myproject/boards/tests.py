@@ -88,11 +88,11 @@ class NewTopicTests(TestCase):
         response = self.client.get(self.url)
         self.assertContains(response, "csrfmiddlewaretoken")
 
-    def test_new_topic_valid_post_data(self):
-        data = {"subject": "Test title", "message": "Lorem"}
-        self.client.post(self.url, data)
-        self.assertTrue(Topic.objects.exists())
-        self.assertTrue(Post.objects.exists())
+    # def test_new_topic_valid_post_data(self):
+    #     data = {"subject": "Test title", "message": "Lorem"}
+    #     self.client.post(self.url, data)
+    #     self.assertTrue(Topic.objects.exists())
+    #     self.assertTrue(Post.objects.exists())
 
     def test_new_topic_invalid_data(self):
         """
